@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Author Predictor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e6f0fa;
+            color: #1e3a8a;
+            text-align: center;
+            padding: 20px;
+        }
+        h1 {
+            color: #1e90ff;
+        }
+        textarea {
+            width: 80%;
+            height: 100px;
+            margin: 10px;
+            padding: 10px;
+            border: 2px solid #1e90ff;
+            border-radius: 5px;
+            background-color: #ffffff;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #1e90ff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #1e70ff;
+        }
+        #predictions {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        .test-messages {
+            margin-top: 20px;
+            text-align: left;
+            max-width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: #fff;
+            padding: 10px;
+            border: 2px solid #1e90ff;
+            border-radius: 5px;
+        }
+        .test-messages pre {
+            margin: 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-size: 12px; /* Reduced font size */
+        }
+    </style>
+</head>
+<body>
+    <h1>Author Predictor</h1>
+    <form id="predictionForm" action="/predict" method="post">
+        <textarea name="text_snippet" placeholder="Enter text snippet here..." required></textarea>
+        <br>
+        <button type="submit">Predict Author</button>
+    </form>
+    <div id="predictions">
+        <p>Simple LSTM Prediction: <span id="simple_pred">N/A</span></p>
+        <p>Bidirectional LSTM Prediction: <span id="bidirectional_pred">N/A</span></p>
+    </div>
+
+    <div class="test-messages">
+        <h3>Test Messages (Copy and Paste to Test):</h3>
+        <pre>in the same way i do i did not realize what it must mean to you much distressed gray raised himself on an elbow and her to be calm all the chivalry in his nature was aroused he pitied the girl from the bottom of his heart her unexpected flood of raised her immensely in his estimation everything is arranged now everything is understood he answered soothingly mr has husband and wife procured the of of our marriage let me beg you not to repeat these she arose and threw herself on the floor by the side of the sofa laying her head on his bosom while she wept softly he was distressed as much by this move as the former one but he had not the heart to forbid it at least it led in the direction they would ultimately have to take listen he said when she had grown a little we must understand everything exactly alike let us see if we agree on all points for as we have one story to tell there must be no miss i mean mrs gray take your chair again and let us see if there is anything in which we differ the girl rose and took the seat fixing her gaze on a figure in the carpet and answering with that like accuracy which often of mind it was the ,1
+best course he could have taken it avoided for the present the and of argument for which neither of them were prepared as i understand it he began clearing his throat we met by accident for the first time in over a year ago each was attracted by the other although no word was then exchanged the next time we met was at the the palace of the she said in a low voice taking up the strain there we learned each other s names and that both were americans next we were thrown together at a reception of the american minister in rome mr gray bowed in the affirmative love gone astray where in one of the rooms he said i begged permission to write to you and you consented giving me a name under which i could address my communications from that time our took new life i returned to america and not being able to live without you returned joining you at last september then fearing a possible refusal from your parents we decided to be married secretly looked up at last what a miserable of lies it is she exclaimed how can i consent to let an innocent man like you share the sin of those with me placed a warning finger on his lips to indicate that such expressions must not be used there is no point in story at which we he said which is very good the name of the clergyman who married us was august we can be accused of but of nothing more to night you will go through the form of telling your father the girl gave a cry and pressed her hands over her face explaining that the accident do not forget this the accident that has befallen me
+            </pre>
+            <p>OR</p>
+            <pre>
+she came along as mrs van s guest and brought her two with her they had lowered their voices now so that even if the were trying to listen from their perch overhead they could not succeed observations were thrown down from time to time nevertheless as s always lying and the englishman s cut you out all right when thorn could stand it no longer he raised his voice and remarked the first time i catch you young man i ll your ears to which s voice replied that s i ain t no young man and i ll tell my mother what you called me retreating steps indicated that the girl had gone in the direction referred to olive whispered thorn when the incident was ended has miss said anything she shook her head i m sorry to say she hasn t it s just as i wrote you the last time she seems exceedingly fond of me but when i talk of you she doesn t utter a word i ve gone as far as i dare i ve talked of you by the half hour saying how i wished you d find some dear girl for a wife and settle down in a home of your own i ve told her you never had a love affair and that if you ever formed an attachment it would be of a kind to last forever and she s listened as if out of politeness and when she s spoken again it s been about something else thorn s hands were clenched till the finger nails cut a sugar into the flesh his face was set and his dark eyes gleamed in the half light like polished jewels tell me about the other one he said presently does she give him any encouragement mr i don t think he s had the courage to a word to her has she met anyone else on this journey no one who could be thought of in that connection then i m going to ask her within a week there s nothing to be gained by waiting and she can t get angry with me for an honest declaration you remember the poet s words he either fears his fate too much or his desert is small who will not put it to the touch to win or lose it all miss thorn lifted her eyes to her brother do you love her very very much she whispered couldn t you learn to bear it if she said no i came here because i could not endure the suspense he said with short if she refuses me it will break up my life poor boy she murmured don t give way to you may win her yet looking stealthily around to make sure there were no spectators present thorn pressed a warm kiss on his sister s cheek she had given him hope that he needed badly
+            </pre>
+        </div>    <script>
+        document.getElementById('predictionForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const response = await fetch('/predict', {
+                method: 'POST',
+                body: formData
+            });
+            const data = await response.json();
+            document.getElementById('simple_pred').textContent = data.simple_lstm;
+            document.getElementById('bidirectional_pred').textContent = data.bidirectional_lstm;
+        });
+    </script>
+</body>
+</html>
+

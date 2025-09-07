@@ -1,0 +1,7 @@
+﻿fastapi
+uvicorn
+tensorflow
+numpy
+python-multipart
+jinja2
+scikit-learn
